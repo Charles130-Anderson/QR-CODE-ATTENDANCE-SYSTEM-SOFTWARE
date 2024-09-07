@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             model_name='student',
             name='s_year',
             field=models.IntegerField(
-                default=1, 
+                default=1,
                 validators=[
                     django.core.validators.MinValueValidator(1),
                     django.core.validators.MaxValueValidator(4)
