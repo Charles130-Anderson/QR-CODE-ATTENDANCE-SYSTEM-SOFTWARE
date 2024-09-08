@@ -4,8 +4,8 @@ from . import views
 from django.urls import path
 
 urlpatterns = [
+    # Path for the faculty view
     path("", views.faculty_view, name="faculty_view"),
-    """Path for the faculty view."""
+    # Path for manual student addition
     path("add_manually", views.add_manually, name="add_manually"),
-    """Path for manual student addition."""
 ]
