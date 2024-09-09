@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """
 URL configuration for QR_Attendance_System.
-
 Defines URL routing for project.
 """
 
