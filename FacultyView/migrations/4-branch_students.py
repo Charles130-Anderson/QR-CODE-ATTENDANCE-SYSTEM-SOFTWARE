@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     """Handles database migration changes."""
 
     dependencies = [
-        ('FacultyView', '3-student_s_year.py'),
+        ('FacultyView', '3-student_s_year'),
     ]  # Dependencies for this migration
 
     operations = [
