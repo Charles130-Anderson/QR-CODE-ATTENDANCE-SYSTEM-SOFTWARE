@@ -32,9 +32,9 @@ The teacher/faculty can display the QR Code using classroom projector so that pr
 - **User-Friendly Interface:** A straightforward web interface for effortless attendance management.
 - **Real-Time Tracking:** Mark attendance by scanning QR codes with real-time updates.
 - **Accessibility:** Easily access attendance records for quick reference.
-- **The system stores and manages attendance data.
-- **Deployed using **Gunicorn** with NGINX for high performance.
-- **Secure access with **Let's Encrypt SSL** for HTTPS.
+- ** Data storage:** The system stores and manages attendance data.
+- **Gunicorn deployment:** with NGINX for high performance.
+- **Let's Encrypt SSL:** for HTTPS.
 
 
 ## Prerequisites
@@ -261,6 +261,18 @@ You can manage the Gunicorn service using systemd:
   ```bash
   sudo systemctl status gunicorn
   ```
+- **Bind Gunicorn and my software**:
+  ```bash
+  gunicorn QR_Attendance_System.wsgi --bind 0.0.0.0:8000
+
+  ```
+- **Run the program on the background**:
+  ```bash
+  nohup python3 manage.py runserver &
+
+  ```
+
+
 
 ### 6. Logs and Troubleshooting
 
