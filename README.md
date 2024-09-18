@@ -343,7 +343,7 @@ You can manage the Gunicorn service using systemd:
 
   ```
 
-### 6. Logs and Troubleshooting
+### 10. Logs and Troubleshooting
 
 You can view the system logs using `journalctl` to debug any issues:
 
@@ -357,8 +357,6 @@ sudo journalctl -u nginx
 This project is licensed under the MIT License.
 
 ---
-
-This should give you a basic `README.md` file that includes the setup and configuration steps for your project. You can customize it further based on any additional details or specific instructions for users.
 
 ## Screenshots
 
