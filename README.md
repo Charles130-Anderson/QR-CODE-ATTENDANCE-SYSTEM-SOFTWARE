@@ -1,7 +1,7 @@
   
 ## QR Code Attendance System
 
-This is a **QR Code Attendance System** that allows users to register and track attendance via scanning QR codes. The application runs on a web server with **Gunicorn** as the application server and **NGINX** as the reverse proxy. The project is deployed on an **Ubuntu 20.04** instance.
+This is a **QR Code Attendance System** that allows users to register and track attendance via scanning QR codes. The application runs on a web server with **Gunicorn** as the application server and **NGINX** as the reverse proxy. The project is deployed on an **ALX Server** instance.
 
 
 </div>
@@ -23,12 +23,12 @@ This is a **QR Code Attendance System** that allows users to register and track 
 
 The QR Code Attendance System is an efficient,fast and user-friendly tool for tracking attendance using QR codes. It utilizes HTML, CSS, and Django to create a web-based interface for marking attendance. This system is designed to work seamlessly when devices are connected to the __Same College Local Network__.
 
-The teacher/faculty can display the QR Code using classroom projector so that present students can scan and mark their attendance.
+The teacher/faculty can display the QR Code using a classroom projector so that present students can scan and mark their attendance.
 
 ## Features
 
-- **Automatic IP Fetching:** It fetch your IPv4 address automatically and Generate a QR code based on that IP to enable connections within the classroom.
-- **Faculty Panel:** It has a Faculty View Panel that enables the teacher to remove duplicate or proxy attendances based on count.
+- **Automatic IP Fetching:** It fetches your IPv4 address automatically and Generates a QR code based on that IP to enable connections within the classroom.
+- **Faculty Panel:** It has a Faculty View Panel that enables teachers to remove duplicate or proxy attendances based on count.
 - **User-Friendly Interface:** A straightforward web interface for effortless attendance management.
 - **Real-Time Tracking:** Mark attendance by scanning QR codes with real-time updates.
 - **Accessibility:** Easily access attendance records for quick reference.
@@ -66,6 +66,31 @@ Before you begin, ensure you have the following prerequisites installed:
    ```
    pip install -r requirements.txt
    ```
+5.**Configuring with WIFI IP Adress:**
+
+   ```
+  ipconfig
+   ```
+6.**Clearing Django admin to make fresh migrations:**
+   ```
+ rm db.sqlite3
+   ```
+
+6.**Making fresh migrations:**
+   ```
+ python manage.py makemigrations
+   ```
+
+6.**Running migrations:**
+   ```
+ python manage.py migrate 
+   ```
+
+6.**Showing migrations:**
+   ```
+ python manage.py showmigrations
+   ```
+
 4. **Run the Django Server:**
 
    ```
