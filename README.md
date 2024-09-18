@@ -13,6 +13,7 @@ This is a **QR Code Attendance System** that allows users to register and track 
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
 - [Usage](#usage)
+- [Server Setup](#ServerSetup)
 - [Screenshots](#screenshots)
 - [License](#license)
 - [Contributions](#contributions)
@@ -141,7 +142,7 @@ Before you begin, ensure you have the following prerequisites installed:
 
    The attendance records will be updated in real-time, ensuring accurate tracking.
 
-## Alx server Setup
+## Server Setup
 
 ### 
 ### 1. Install Dependencies
@@ -279,16 +280,16 @@ This project is licensed under the MIT License.
 This should give you a basic `README.md` file that includes the setup and configuration steps for your project. You can customize it further based on any additional details or specific instructions for users.
 
 ## Screenshots
-![1726681415631](https://github.com/user-attachments/assets/2bf27076-b269-4459-b512-31538651ba28)
-![1726681415616](https://github.com/user-attachments/assets/21b0f870-2355-45ba-abba-2af234df1e2e)
-![1726681415623](https://github.com/user-attachments/assets/aabadb24-cd76-4c4e-9dbc-62b68d80c41e)
-![Django admin](https://github.com/user-attachments/assets/968cffc7-2148-445d-b77a-93987e4aed7e)
-
-### Admin Page
 
 ### Student Page
+![1726681415631](https://github.com/user-attachments/assets/2bf27076-b269-4459-b512-31538651ba28)
 
 ### Submission Successful Page
+![1726681415616](https://github.com/user-attachments/assets/21b0f870-2355-45ba-abba-2af234df1e2e)
+![1726681415623](https://github.com/user-attachments/assets/aabadb24-cd76-4c4e-9dbc-62b68d80c41e)
+
+### Admin Page
+![Django admin](https://github.com/user-attachments/assets/968cffc7-2148-445d-b77a-93987e4aed7e)
 
 ## Contributions
 
