@@ -1,6 +1,9 @@
 <div align="center">
    
-## QR-CODE-ATTENDANCE-SYSTEM-SOFTWARE
+## QR Code Attendance System
+
+This is a **QR Code Attendance System** that allows users to register and track attendance via scanning QR codes. The application runs on a web server with **Gunicorn** as the application server and **NGINX** as the reverse proxy. The project is deployed on an **Ubuntu 20.04** instance.
+
 
 </div>
 
@@ -133,6 +136,155 @@ Before you begin, ensure you have the following prerequisites installed:
 4. **Real-Time Tracking:**
 
    The attendance records will be updated in real-time, ensuring accurate tracking.
+Here’s a draft of your `README.md` file based on the details of your project:
+
+---
+
+
+## Features
+
+- Users can scan QR codes to register their attendance.
+- The system stores and manages attendance data.
+- Deployed using **Gunicorn** with NGINX for high performance.
+- Secure access with **Let's Encrypt SSL** for HTTPS.
+
+## Project Setup
+
+### 1. Install Dependencies
+
+First, install all the required packages for the project. The project uses a virtual environment to isolate dependencies.
+
+```bash
+sudo apt update
+sudo apt install python3-pip python3-dev nginx
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### 2. Configure Gunicorn
+
+We are using **Gunicorn** as the WSGI server. The configuration for Gunicorn is stored in the systemd service file. You can create a systemd service file as follows:
+
+```bash
+sudo nano /etc/systemd/system/gunicorn.service
+```
+
+Paste the following content in the file:
+
+```ini
+[Unit]
+Description=gunicorn daemon for QR Code Attendance System
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/QR-CODE-ATTENDANCE-SYSTEM-SOFTWARE
+ExecStart=/home/ubuntu/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/QR-CODE-ATTENDANCE-SYSTEM-SOFTWARE/gunicorn.sock app:app
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### 3. Set Up NGINX
+
+The NGINX web server is used as a reverse proxy in front of Gunicorn. You need to create an NGINX configuration file for your site.
+
+```bash
+sudo nano /etc/nginx/sites-available/www.charlesotieno.tech
+```
+
+Add the following NGINX configuration:
+
+```nginx
+server {
+    listen 80;
+    server_name www.charlesotieno.tech;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/ubuntu/QR-CODE-ATTENDANCE-SYSTEM-SOFTWARE/gunicorn.sock;
+    }
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/letsencrypt;
+    }
+
+    error_page 502 504 /50x.html;
+}
+```
+
+Enable the NGINX configuration by creating a symlink:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/www.charlesotieno.tech /etc/nginx/sites-enabled/
+```
+
+Test the configuration and restart NGINX:
+
+```bash
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+### 4. Configure SSL with Let's Encrypt
+
+Install **Certbot** to generate and renew SSL certificates:
+
+```bash
+sudo apt install certbot python3-certbot-nginx
+```
+
+Obtain an SSL certificate for your domain:
+
+```bash
+sudo certbot --nginx -d www.charlesotieno.tech
+```
+
+Test the renewal process:
+
+```bash
+sudo certbot renew --dry-run
+```
+
+### 5. Managing the Application
+
+You can manage the Gunicorn service using systemd:
+
+- **Start the service**:
+  ```bash
+  sudo systemctl start gunicorn
+  ```
+- **Stop the service**:
+  ```bash
+  sudo systemctl stop gunicorn
+  ```
+- **Restart the service**:
+  ```bash
+  sudo systemctl restart gunicorn
+  ```
+- **Check the status**:
+  ```bash
+  sudo systemctl status gunicorn
+  ```
+
+### 6. Logs and Troubleshooting
+
+You can view the system logs using `journalctl` to debug any issues:
+
+```bash
+sudo journalctl -u gunicorn
+sudo journalctl -u nginx
+```
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+This should give you a basic `README.md` file that includes the setup and configuration steps for your project. You can customize it further based on any additional details or specific instructions for users.
 
 ## Screenshots
 
@@ -147,6 +299,5 @@ Before you begin, ensure you have the following prerequisites installed:
 We welcome contributions from the community! If you'd like to contribute to this project, please follow our [contribution guidelines](CONTRIBUTING.md).
 
 ## Developers
-Created by __Team Hokage__ during __Live The Code 2.0__ Hackathon.
 
-Contributors : [Mohd Azeem](https://github.com/AzeemIdrisi), [Dheeraj Jha](https://github.com/Dheerajjha451), [Shantanu Pant](https://github.com/Shanty34)
+Contributors : [Mohd Azeem](https://github.com/AzeemIdrisi), [Dheeraj Jha](https://github.com/Dheerajjha451), [Shantanu Pant](https://github.com/Shanty34), [Charles Anderson Otieno](https://github.com/Charles130-Anderson/QR-CODE-ATTENDANCE-SYSTEM-SOFTWARE)
