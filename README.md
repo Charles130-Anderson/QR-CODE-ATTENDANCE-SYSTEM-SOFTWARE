@@ -32,7 +32,7 @@ The teacher/faculty can display the QR Code using a classroom projector so that 
 - **User-Friendly Interface:** A straightforward web interface for effortless attendance management.
 - **Real-Time Tracking:** Mark attendance by scanning QR codes with real-time updates.
 - **Accessibility:** Easily access attendance records for quick reference.
-- ** Data storage:** The system stores and manages attendance data.
+- **Data storage:** The system stores and manages attendance data.
 - **Gunicorn deployment:** with NGINX for high performance.
 - **Let's Encrypt SSL:** for HTTPS.
 
@@ -61,17 +61,17 @@ Before you begin, ensure you have the following prerequisites installed:
    ```
 
 
-4. **Install dependencies:**
+3. **Install dependencies:**
 
    ```
    pip install -r requirements.txt
    ```
-5.**Configuring with WIFI IP Adress:**
+4.**Configuring with WIFI IP Adress:**
 
    ```
   ipconfig
    ```
-6.**Clearing Django admin to make fresh migrations:**
+5.**Clearing Django admin to make fresh migrations:**
    ```
  rm db.sqlite3
    ```
@@ -81,26 +81,29 @@ Before you begin, ensure you have the following prerequisites installed:
  python manage.py makemigrations
    ```
 
-6.**Running migrations:**
+7.**Running migrations:**
    ```
  python manage.py migrate 
    ```
 
-6.**Showing migrations:**
+8.**Showing migrations:**
    ```
  python manage.py showmigrations
    ```
-
-4. **Run the Django Server:**
+9.**Creating a superuser for the admin interface:**
+   ```
+ python manage.py createsuperuser     
+   ```
+10.**Run the Django Server:**
 
    ```
    python manage.py runserver 0.0.0.0(WIFI IP):8000 e.g.
    python manage.py runserver 192.168.30.227:8000
    ```
 
-5. **Access the System:**
+11.**Access the System:**
 
-   Open your web browser and go to `http://localhost:8000` to use the system.
+   Ctrl + enter to  Open your web browser and go to `http://localhost:8000` to use the system.
 
 ### Setting up Firewall settings for the first time
 
@@ -169,8 +172,22 @@ Before you begin, ensure you have the following prerequisites installed:
 
 ## Server Setup
 
-### 
-### 1. Install Dependencies
+### 1. Accessing sever via ssh 
+```bash
+ssh user@your_server_ip
+```
+
+### 2. Gunicorn (a Python WSGI HTTP server):
+
+```bash
+pip install gunicorn
+```
+### 3. Nginx (as a reverse proxy to serve your application):
+```bash
+sudo apt install nginx
+```
+
+### 4. Install Dependencies
 
 ```bash
 sudo apt update
@@ -180,7 +197,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Configure Gunicorn
+### 5. Configure Gunicorn
 
 We are using **Gunicorn** as the WSGI server. The configuration for Gunicorn is stored in the systemd service file. You can create a systemd service file as follows:
 
@@ -205,48 +222,73 @@ ExecStart=/home/ubuntu/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/QR
 WantedBy=multi-user.target
 ```
 
-### 3. Set Up NGINX
+### 6. Set Up NGINX
 
 The NGINX web server is used as a reverse proxy in front of Gunicorn. You need to create an NGINX configuration file for your site.
 
 ```bash
-sudo nano /etc/nginx/sites-available/www.charlesotieno.tech
+sudo nano /etc/nginx/sites-available/charlesotieno.tech
 ```
 
 Add the following NGINX configuration:
 
 ```nginx
 server {
-    listen 80;
-    server_name www.charlesotieno.tech;
+    server_name www.charlesotieno.tech charlesotieno.tech;
 
     location / {
-        include proxy_params;
-        proxy_pass http://unix:/home/ubuntu/QR-CODE-ATTENDANCE-SYSTEM-SOFTWARE/gunicorn.sock;
+        #proxy_pass http://unix:/home/ubuntu/QR-CODE-ATTENDANCE-SYSTEM-SOFTWARE/qr_attendance_system.sock;
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    location /.well-known/acme-challenge/ {
-        root /var/www/letsencrypt;
+    location /static/ {
+        alias /home/ubuntu/QR-CODE-ATTENDANCE-SYSTEM-SOFTWARE/static/;
     }
 
-    error_page 502 504 /50x.html;
+    location /media/ {
+        alias /home/ubuntu/QR-CODE-ATTENDANCE-SYSTEM-SOFTWARE/media/;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/www.charlesotieno.tech/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/www.charlesotieno.tech/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+    if ($host = www.charlesotieno.tech) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name www.charlesotieno.tech charlesotieno.tech;
+
+    listen 80;
+    return 404; # managed by Certbot
+
+
 }
 ```
 
 Enable the NGINX configuration by creating a symlink:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/www.charlesotieno.tech /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/charlesotieno.tech /etc/nginx/sites-enabled/
 ```
 
-Test the configuration and restart NGINX:
+### 7. Test the configuration and restart NGINX:
 
 ```bash
 sudo nginx -t
 sudo systemctl restart nginx
 ```
 
-### 4. Configure SSL with Let's Encrypt
+### 8. Configure SSL with Let's Encrypt
 
 Install **Certbot** to generate and renew SSL certificates:
 
@@ -266,7 +308,7 @@ Test the renewal process:
 sudo certbot renew --dry-run
 ```
 
-### 5. Managing the Application
+### 9. Managing the Application
 
 You can manage the Gunicorn service using systemd:
 
@@ -286,6 +328,10 @@ You can manage the Gunicorn service using systemd:
   ```bash
   sudo systemctl status gunicorn
   ```
+- **Triggering static files for deployment**:
+  ```bash
+  python3 manage.py collectstatic
+  ```
 - **Bind Gunicorn and my software**:
   ```bash
   gunicorn QR_Attendance_System.wsgi --bind 0.0.0.0:8000
@@ -296,8 +342,6 @@ You can manage the Gunicorn service using systemd:
   nohup python3 manage.py runserver &
 
   ```
-
-
 
 ### 6. Logs and Troubleshooting
 
