@@ -1,5 +1,4 @@
-<div align="center">
-   
+  
 ## QR Code Attendance System
 
 This is a **QR Code Attendance System** that allows users to register and track attendance via scanning QR codes. The application runs on a web server with **Gunicorn** as the application server and **NGINX** as the reverse proxy. The project is deployed on an **Ubuntu 20.04** instance.
