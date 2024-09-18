@@ -31,6 +31,10 @@ The teacher/faculty can display the QR Code using classroom projector so that pr
 - **User-Friendly Interface:** A straightforward web interface for effortless attendance management.
 - **Real-Time Tracking:** Mark attendance by scanning QR codes with real-time updates.
 - **Accessibility:** Easily access attendance records for quick reference.
+- **The system stores and manages attendance data.
+- **Deployed using **Gunicorn** with NGINX for high performance.
+- **Secure access with **Let's Encrypt SSL** for HTTPS.
+
 
 ## Prerequisites
 
@@ -46,7 +50,7 @@ Before you begin, ensure you have the following prerequisites installed:
 1. **Clone the Repository:**
 
    ```
-   git clone https://github.com/AzeemIdrisi/QR-Attendance-System
+   git clone https://github.com/Charles130-Anderson/QR-CODE-ATTENDANCE-SYSTEM-SOFTWARE
    ```
 
 2. **Navigate to the Project Directory:**
@@ -64,7 +68,8 @@ Before you begin, ensure you have the following prerequisites installed:
 4. **Run the Django Server:**
 
    ```
-   python manage.py runserver 0.0.0.0:8000 
+   python manage.py runserver 0.0.0.0(WIFI IP):8000 e.g.
+   python manage.py runserver 192.168.30.227:8000
    ```
 
 5. **Access the System:**
@@ -135,23 +140,11 @@ Before you begin, ensure you have the following prerequisites installed:
 4. **Real-Time Tracking:**
 
    The attendance records will be updated in real-time, ensuring accurate tracking.
-Here’s a draft of your `README.md` file based on the details of your project:
 
----
+## Alx server Setup
 
-
-## Features
-
-- Users can scan QR codes to register their attendance.
-- The system stores and manages attendance data.
-- Deployed using **Gunicorn** with NGINX for high performance.
-- Secure access with **Let's Encrypt SSL** for HTTPS.
-
-## Project Setup
-
+### 
 ### 1. Install Dependencies
-
-First, install all the required packages for the project. The project uses a virtual environment to isolate dependencies.
 
 ```bash
 sudo apt update
